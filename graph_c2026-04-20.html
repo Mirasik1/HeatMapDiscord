@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #0f0f0f;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ffffff", "font": {"color": "black"}, "id": "\u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "label": "\u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "shape": "box", "size": 25}, {"color": "#ffffff", "font": {"color": "black"}, "id": "\ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "label": "\ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "shape": "box", "size": 25}, {"color": "#ffffff", "font": {"color": "black"}, "id": "\u0423\u0437\u043d\u0438\u043a\u0438 SAT", "label": "\u0423\u0437\u043d\u0438\u043a\u0438 SAT", "shape": "box", "size": 25}, {"color": "#52e904", "font": {"color": "black"}, "id": "mer1nor", "label": "mer1nor", "shape": "dot", "size": 15}, {"color": "#95bed7", "font": {"color": "black"}, "id": "ehhh0", "label": "ehhh0", "shape": "dot", "size": 15}, {"color": "#07cce3", "font": {"color": "black"}, "id": "katsurq", "label": "katsurq", "shape": "dot", "size": 15}, {"color": "#2d286b", "font": {"color": "black"}, "id": "medetushka", "label": "medetushka", "shape": "dot", "size": 15}, {"color": "#24e58f", "font": {"color": "black"}, "id": "mamkatrampa6945", "label": "mamkatrampa6945", "shape": "dot", "size": 15}, {"color": "#00f62a", "font": {"color": "black"}, "id": "dosmukasan", "label": "dosmukasan", "shape": "dot", "size": 15}]);
+                  edges = new vis.DataSet([{"color": "rgb(182,0,72)", "from": "dosmukasan", "title": "128.4 min in \ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "to": "\ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "width": 9.168108661270816}, {"color": "rgb(255,0,0)", "from": "ehhh0", "title": "179.2 min in \u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "to": "\u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "width": 12.0}, {"color": "rgb(90,0,164)", "from": "katsurq", "title": "63.3 min in \u0423\u0437\u043d\u0438\u043a\u0438 SAT", "to": "\u0423\u0437\u043d\u0438\u043a\u0438 SAT", "width": 5.5352125779142245}, {"color": "rgb(223,0,31)", "from": "mamkatrampa6945", "title": "157.2 min in \ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "to": "\ud83d\udd25\u041a\u0430\u043d\u0430\u043b \u0434\u043b\u044f \u043f\u0438\u0434\u043e\u0440\u043e\u0432(\u0445\u0435\u0440\u0442\u0441\u0442\u043e\u0443\u043d)", "width": 10.773839426923434}, {"color": "rgb(73,0,181)", "from": "medetushka", "title": "51.4 min in \u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "to": "\u041b\u044e\u0434\u0438 \u0441 \u0431\u043e\u043b\u044c\u0448\u0438\u043c\u0438 \u044f\u0438\u0446\u0430\u043c\u0438 \u0438 \u0431\u0435\u0439\u0431\u0430", "width": 4.87003442180668}, {"color": "rgb(132,0,122)", "from": "mer1nor", "title": "93.4 min in \u0423\u0437\u043d\u0438\u043a\u0438 SAT", "to": "\u0423\u0437\u043d\u0438\u043a\u0438 SAT", "width": 7.212577914224578}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"color": "black", "strokeWidth": 3, "strokeColor": "#ffffff", "align": "top"}}, "physics": {"forceAtlas2Based": {"theta": 0.1, "gravitationalConstant": -250, "springLength": 200, "avoidOverlap": 1}, "solver": "forceAtlas2Based"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div style="position: fixed; right: 20px; top: 100px; width: 20px; height: 200px; 
+    background: linear-gradient(to top, blue, red); border: 1px solid white; z-index: 999;"></div>
+    <div style="position: fixed; right: 50px; top: 100px; color: white; z-index: 999;">Long time → Short time (min 30m)</div>
+    </body>
+</html>

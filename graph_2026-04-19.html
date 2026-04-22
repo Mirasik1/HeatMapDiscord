@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #0f0f0f;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ba8908", "font": {"color": "white"}, "id": ".kirab", "label": ".kirab", "shape": "dot", "size": 15, "title": ".kirab"}, {"color": "#e9ef90", "font": {"color": "white"}, "id": "a1tosha", "label": "a1tosha", "shape": "dot", "size": 15, "title": "a1tosha"}, {"color": "#aaaf4f", "font": {"color": "white"}, "id": "aferist.", "label": "aferist.", "shape": "dot", "size": 15, "title": "aferist."}, {"color": "#1a9133", "font": {"color": "white"}, "id": "aizsurq", "label": "aizsurq", "shape": "dot", "size": 15, "title": "aizsurq"}, {"color": "#6092fc", "font": {"color": "white"}, "id": "dandenchik", "label": "dandenchik", "shape": "dot", "size": 15, "title": "dandenchik"}, {"color": "#66ff8d", "font": {"color": "white"}, "id": "dosmukasan", "label": "dosmukasan", "shape": "dot", "size": 15, "title": "dosmukasan"}, {"color": "#05f69d", "font": {"color": "white"}, "id": "ehhh0", "label": "ehhh0", "shape": "dot", "size": 15, "title": "ehhh0"}, {"color": "#7c78ff", "font": {"color": "white"}, "id": "frostkozha9743", "label": "frostkozha9743", "shape": "dot", "size": 15, "title": "frostkozha9743"}, {"color": "#b4b67a", "font": {"color": "white"}, "id": "ih8nuggets", "label": "ih8nuggets", "shape": "dot", "size": 15, "title": "ih8nuggets"}, {"color": "#8edb56", "font": {"color": "white"}, "id": "katsurq", "label": "katsurq", "shape": "dot", "size": 15, "title": "katsurq"}, {"color": "#ec31eb", "font": {"color": "white"}, "id": "khaitani.", "label": "khaitani.", "shape": "dot", "size": 15, "title": "khaitani."}, {"color": "#eed8d8", "font": {"color": "white"}, "id": "kobanus", "label": "kobanus", "shape": "dot", "size": 15, "title": "kobanus"}, {"color": "#85abde", "font": {"color": "white"}, "id": "mamkatrampa6945", "label": "mamkatrampa6945", "shape": "dot", "size": 15, "title": "mamkatrampa6945"}, {"color": "#7ff36d", "font": {"color": "white"}, "id": "marci.zxc", "label": "marci.zxc", "shape": "dot", "size": 15, "title": "marci.zxc"}, {"color": "#91739b", "font": {"color": "white"}, "id": "medetushka", "label": "medetushka", "shape": "dot", "size": 15, "title": "medetushka"}, {"color": "#cba020", "font": {"color": "white"}, "id": "mer1nor", "label": "mer1nor", "shape": "dot", "size": 15, "title": "mer1nor"}, {"color": "#5650d4", "font": {"color": "white"}, "id": "mirasik06", "label": "mirasik06", "shape": "dot", "size": 15, "title": "mirasik06"}, {"color": "#2b526c", "font": {"color": "white"}, "id": "nurma3120", "label": "nurma3120", "shape": "dot", "size": 15, "title": "nurma3120"}, {"color": "#8ed8f6", "font": {"color": "white"}, "id": "pankeiqq", "label": "pankeiqq", "shape": "dot", "size": 15, "title": "pankeiqq"}, {"color": "#451b70", "font": {"color": "white"}, "id": "qupphielez", "label": "qupphielez", "shape": "dot", "size": 15, "title": "qupphielez"}, {"color": "#9d5441", "font": {"color": "white"}, "id": "sanj0_0", "label": "sanj0_0", "shape": "dot", "size": 15, "title": "sanj0_0"}, {"color": "#f6da0c", "font": {"color": "white"}, "id": "se7enty_4our", "label": "se7enty_4our", "shape": "dot", "size": 15, "title": "se7enty_4our"}, {"color": "#fd9f91", "font": {"color": "white"}, "id": "sfeshl", "label": "sfeshl", "shape": "dot", "size": 15, "title": "sfeshl"}, {"color": "#72c1c2", "font": {"color": "white"}, "id": "sh1fhan", "label": "sh1fhan", "shape": "dot", "size": 15, "title": "sh1fhan"}, {"color": "#697180", "font": {"color": "white"}, "id": "shanazhretsya", "label": "shanazhretsya", "shape": "dot", "size": 15, "title": "shanazhretsya"}, {"color": "#daa607", "font": {"color": "white"}, "id": "sltshera", "label": "sltshera", "shape": "dot", "size": 15, "title": "sltshera"}, {"color": "#478b52", "font": {"color": "white"}, "id": "tmrln00", "label": "tmrln00", "shape": "dot", "size": 15, "title": "tmrln00"}, {"color": "#9b838c", "font": {"color": "white"}, "id": "yersultan0609", "label": "yersultan0609", "shape": "dot", "size": 15, "title": "yersultan0609"}]);
+                  edges = new vis.DataSet([{"color": "rgb(17,0,237)", "from": "kobanus", "title": "19.6 min together", "to": "mer1nor"}, {"color": "rgb(17,0,237)", "from": "kobanus", "title": "19.6 min together", "to": "sltshera"}, {"color": "rgb(0,0,254)", "from": "kobanus", "title": "1.1 min together", "to": "tmrln00"}, {"color": "rgb(0,0,254)", "from": "mamkatrampa6945", "title": "1.0 min together", "to": "nurma3120"}, {"color": "rgb(125,0,129)", "from": "mer1nor", "title": "142.2 min together", "to": "sltshera"}, {"color": "rgb(43,0,211)", "from": "mer1nor", "title": "49.0 min together", "to": "tmrln00"}, {"color": "rgb(8,0,246)", "from": "sltshera", "title": "10.0 min together", "to": "tmrln00"}, {"color": "rgb(0,0,254)", "from": ".kirab", "title": "1.0 min together", "to": "mer1nor"}, {"color": "rgb(0,0,254)", "from": ".kirab", "title": "1.0 min together", "to": "shanazhretsya"}, {"color": "rgb(0,0,254)", "from": ".kirab", "title": "1.0 min together", "to": "tmrln00"}, {"color": "rgb(39,0,215)", "from": "mer1nor", "title": "45.2 min together", "to": "shanazhretsya"}, {"color": "rgb(5,0,249)", "from": "shanazhretsya", "title": "6.3 min together", "to": "sltshera"}, {"color": "rgb(70,0,184)", "from": "shanazhretsya", "title": "79.7 min together", "to": "tmrln00"}, {"color": "rgb(17,0,237)", "from": ".kirab", "title": "19.6 min together", "to": "nurma3120"}, {"color": "rgb(2,0,252)", "from": "dosmukasan", "title": "3.2 min together", "to": "kobanus"}, {"color": "rgb(122,0,132)", "from": "dosmukasan", "title": "139.4 min together", "to": "nurma3120"}, {"color": "rgb(2,0,252)", "from": "kobanus", "title": "3.2 min together", "to": "nurma3120"}, {"color": "rgb(4,0,250)", "from": ".kirab", "title": "5.5 min together", "to": "dandenchik"}, {"color": "rgb(4,0,250)", "from": ".kirab", "title": "5.5 min together", "to": "katsurq"}, {"color": "rgb(4,0,250)", "from": ".kirab", "title": "5.5 min together", "to": "medetushka"}, {"color": "rgb(4,0,250)", "from": ".kirab", "title": "5.5 min together", "to": "pankeiqq"}, {"color": "rgb(4,0,250)", "from": ".kirab", "title": "5.4 min together", "to": "sfeshl"}, {"color": "rgb(23,0,231)", "from": "a1tosha", "title": "26.6 min together", "to": "dandenchik"}, {"color": "rgb(23,0,231)", "from": "a1tosha", "title": "26.6 min together", "to": "katsurq"}, {"color": "rgb(23,0,231)", "from": "a1tosha", "title": "26.6 min together", "to": "mirasik06"}, {"color": "rgb(23,0,231)", "from": "a1tosha", "title": "26.6 min together", "to": "pankeiqq"}, {"color": "rgb(1,0,253)", "from": "a1tosha", "title": "2.2 min together", "to": "shanazhretsya"}, {"color": "rgb(32,0,222)", "from": "a1tosha", "title": "36.5 min together", "to": "sltshera"}, {"color": "rgb(67,0,187)", "from": "dandenchik", "title": "76.9 min together", "to": "frostkozha9743"}, {"color": "rgb(96,0,158)", "from": "dandenchik", "title": "109.4 min together", "to": "katsurq"}, {"color": "rgb(9,0,245)", "from": "dandenchik", "title": "10.4 min together", "to": "khaitani."}, {"color": "rgb(9,0,245)", "from": "dandenchik", "title": "11.0 min together", "to": "marci.zxc"}, {"color": "rgb(43,0,211)", "from": "dandenchik", "title": "49.7 min together", "to": "medetushka"}, {"color": "rgb(53,0,201)", "from": "dandenchik", "title": "60.6 min together", "to": "mirasik06"}, {"color": "rgb(94,0,160)", "from": "dandenchik", "title": "107.2 min together", "to": "pankeiqq"}, {"color": "rgb(10,0,244)", "from": "dandenchik", "title": "11.7 min together", "to": "sfeshl"}, {"color": "rgb(1,0,253)", "from": "dandenchik", "title": "2.2 min together", "to": "shanazhretsya"}, {"color": "rgb(1,0,253)", "from": "dandenchik", "title": "2.0 min together", "to": "sltshera"}, {"color": "rgb(16,0,238)", "from": "frostkozha9743", "title": "18.5 min together", "to": "katsurq"}, {"color": "rgb(1,0,253)", "from": "frostkozha9743", "title": "1.5 min together", "to": "khaitani."}, {"color": "rgb(1,0,253)", "from": "frostkozha9743", "title": "1.6 min together", "to": "marci.zxc"}, {"color": "rgb(20,0,234)", "from": "frostkozha9743", "title": "23.2 min together", "to": "mirasik06"}, {"color": "rgb(9,0,245)", "from": "frostkozha9743", "title": "11.3 min together", "to": "pankeiqq"}, {"color": "rgb(7,0,247)", "from": "katsurq", "title": "8.9 min together", "to": "khaitani."}, {"color": "rgb(8,0,246)", "from": "katsurq", "title": "9.4 min together", "to": "marci.zxc"}, {"color": "rgb(39,0,215)", "from": "katsurq", "title": "44.6 min together", "to": "medetushka"}, {"color": "rgb(47,0,207)", "from": "katsurq", "title": "54.5 min together", "to": "mirasik06"}, {"color": "rgb(255,0,0)", "from": "katsurq", "title": "289.6 min together", "to": "pankeiqq"}, {"color": "rgb(5,0,249)", "from": "katsurq", "title": "6.7 min together", "to": "sfeshl"}, {"color": "rgb(1,0,253)", "from": "katsurq", "title": "2.2 min together", "to": "shanazhretsya"}, {"color": "rgb(1,0,253)", "from": "katsurq", "title": "2.0 min together", "to": "sltshera"}, {"color": "rgb(9,0,245)", "from": "khaitani.", "title": "10.3 min together", "to": "marci.zxc"}, {"color": "rgb(8,0,246)", "from": "khaitani.", "title": "9.6 min together", "to": "mirasik06"}, {"color": "rgb(7,0,247)", "from": "khaitani.", "title": "8.9 min together", "to": "pankeiqq"}, {"color": "rgb(8,0,246)", "from": "marci.zxc", "title": "10.1 min together", "to": "mirasik06"}, {"color": "rgb(8,0,246)", "from": "marci.zxc", "title": "9.4 min together", "to": "pankeiqq"}, {"color": "rgb(44,0,210)", "from": "medetushka", "title": "50.4 min together", "to": "pankeiqq"}, {"color": "rgb(10,0,244)", "from": "medetushka", "title": "12.5 min together", "to": "sfeshl"}, {"color": "rgb(41,0,213)", "from": "mirasik06", "title": "47.2 min together", "to": "pankeiqq"}, {"color": "rgb(1,0,253)", "from": "mirasik06", "title": "2.2 min together", "to": "shanazhretsya"}, {"color": "rgb(1,0,253)", "from": "mirasik06", "title": "2.0 min together", "to": "sltshera"}, {"color": "rgb(132,0,122)", "from": "pankeiqq", "title": "150.2 min together", "to": "sfeshl"}, {"color": "rgb(1,0,253)", "from": "pankeiqq", "title": "2.2 min together", "to": "shanazhretsya"}, {"color": "rgb(1,0,253)", "from": "pankeiqq", "title": "2.0 min together", "to": "sltshera"}, {"color": "rgb(16,0,238)", "from": "mirasik06", "title": "19.0 min together", "to": "nurma3120"}, {"color": "rgb(54,0,200)", "from": "a1tosha", "title": "62.2 min together", "to": "nurma3120"}, {"color": "rgb(42,0,212)", "from": "nurma3120", "title": "47.9 min together", "to": "sltshera"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"forceAtlas2Based": {"theta": 0.1, "gravitationalConstant": -342, "springLength": 270, "springConstant": 1.915, "damping": 1, "avoidOverlap": 0.33}, "minVelocity": 0.01, "solver": "forceAtlas2Based"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <button id="toggleIsolated" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+    padding: 10px;
+    background: #222;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;">
+    Toggle Isolated
+    </button>
+
+    <div style="
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    width: 20px;
+    height: 200px;
+    background: linear-gradient(to top, blue, red);
+    border: 1px solid white;
+    z-index: 999;">
+    </div>
+
+    <div style="
+    position: fixed;
+    right: 50px;
+    top: 100px;
+    color: white;
+    z-index: 999;">
+    Weak → Strong
+    </div>
+
+    <script>
+    let hidden = false;
+
+    document.getElementById("toggleIsolated").onclick = function() {
+        hidden = !hidden;
+
+        let connected = new Set();
+
+        edges.forEach(function(e) {
+            connected.add(e.from);
+            connected.add(e.to);
+        });
+
+        nodes.forEach(function(n) {
+            if (!connected.has(n.id)) {
+                network.body.data.nodes.update({
+                    id: n.id,
+                    hidden: hidden
+                });
+            }
+        });
+    };
+    </script>
+    </body>
+</html>
